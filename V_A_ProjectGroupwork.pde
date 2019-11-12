@@ -6,13 +6,19 @@ PImage sky;
 // The size of the background
 int size;
 
+// The position of the centre of the constellation map
+float centreX;
+float centreY;
+
 void setup() {
   size(750, 750);
   bg = loadImage("starMap.jpg");
   sky = bg.copy();
   
-  // Initial size of the star consteallation map
+  // Initial size and centre of the star consteallation map
   size = 750;
+  centreX = 375;
+  centreY = 375;
   resizeMap();
   
   // Draw always around a center
@@ -22,7 +28,7 @@ void setup() {
 void draw() {
   background(#242021);
   // Draw the map at the center of the window
-  image(sky, 375, 375);
+  image(sky, centreX, centreY);
 }
 
 void mouseWheel(MouseEvent event) {
@@ -57,4 +63,13 @@ void mouseWheel(MouseEvent event) {
 void resizeMap() {
   sky = bg.copy();
   sky.resize(size, size);
+}
+
+// Change the position of the constellation map based on mouse drags
+void mouseDragged() {
+  float transX = pmouseX - mouseX;
+  float transY = pmouseY - mouseY;
+  
+  centreX -= transX;
+  centreY -= transY;
 }
