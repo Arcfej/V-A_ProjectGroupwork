@@ -20,7 +20,7 @@ void setup() {
 }
 
 void draw() {
-  background(#000000);
+  background(#242021);
   // Draw the map at the center of the window
   image(sky, 375, 375);
 }
@@ -32,17 +32,17 @@ void mouseWheel(MouseEvent event) {
   float zoom = 0.95 * event.getCount();
   if (zoom < 0) {
     // Enlarging the map
-    newSize = (int) Math.abs(size / zoom);
+    newSize = (int) Math.abs(newSize / zoom);
   }
   if (zoom > 0) {
     // Shrinking the map
-    newSize = (int) Math.abs(size * zoom);
+    newSize = (int) Math.abs(newSize * zoom);
   }
   
   // Set constraints on the image (maximum and minimum sizes)
-  if (size > 2075) {
+  if (newSize > 2075) {
     newSize = 2075;
-  } else if (size < 750) {
+  } else if (newSize < 750) {
     newSize = 750;
   }
   
