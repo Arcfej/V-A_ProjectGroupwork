@@ -1,6 +1,10 @@
+/** Size of the window */
+final static int windowSize = 750;
+
 /** Backup image to resize from */
 PImage bg;
 /** The picture of the constellation map */
+// TODO remove unnecessary copy
 PImage sky;
 
 /** The scale used on the coordinate system */
@@ -14,7 +18,11 @@ final static float lowestScale = 0.465260545906;
 float centreX;
 float centreY;
 
+final static int biggestSize = 2075;
+final static int lowestSize = 750;
+
 void setup() {
+  // Unfortunately using the windowSize variable here is not possible
   size(750, 750);
   bg = loadImage("starMap.jpg");
   sky = bg.copy();
@@ -69,21 +77,50 @@ void mouseWheel(MouseEvent event) {
   
   //Finallize the scale
   scale = newScale;
+  // Constrain the position, because the scale has changed
+  constrainPosition(centreX, centreY);
 }
 
 /** Change the position of the coordinate system based on mouse drags */
 void mouseDragged() {
-  float transX = pmouseX - mouseX;
-  float transY = pmouseY - mouseY;
+  float newX = centreX - pmouseX + mouseX;
+  float newY = centreY - pmouseY + mouseY; //<>//
   
-  centreX -= transX;
-  centreY -= transY;
+  constrainPosition(newX, newY);
+}
+
+/**
+ * Set constraints on the position of the coordinate system
+ * 
+ * @param centreX the new x coordinate of the centre of the coordinate system (compared to the window)
+ * @param centreY the new y coordinate of the centre of the coordinate system (compared to the window)
+ */
+void constrainPosition(float centreX, float centreY) {
+  // The constraints on the position of the coordinate system (based on scale)
+  final float upperConstraint = 0;
+  final float lowerConstraint = -(scale * sky.height - windowSize);
+  
+  // Set constraints on the position of the coordinate system
+  if (centreX > upperConstraint) {
+    centreX = upperConstraint;
+  } else if (centreX < lowerConstraint) {
+    centreX = lowerConstraint;
+  }
+  if (centreY > upperConstraint) {
+    centreY = upperConstraint;
+  } else if (centreY < lowerConstraint) {
+    centreY = lowerConstraint;
+  }
+  
+  // Finalize the position of the coordinate system
+  this.centreX = centreX;
+  this.centreY = centreY;
 }
 
 /** First shift than scale the coordinate system to the stored values */
 void transformCoordinateSystem() {
   popMatrix();
   pushMatrix();
-  translate(centreX, centreY); //<>//
+  translate(centreX, centreY);
   scale(scale);
 }
