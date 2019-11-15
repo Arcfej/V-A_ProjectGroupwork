@@ -1,10 +1,7 @@
 /** Size of the window */
 final static int windowSize = 750;
 
-/** Backup image to resize from */
-PImage bg;
 /** The picture of the constellation map */
-// TODO remove unnecessary copy
 PImage sky;
 
 /** The scale used on the coordinate system */
@@ -24,8 +21,7 @@ final static int lowestSize = 750;
 void setup() {
   // Unfortunately using the windowSize variable here is not possible
   size(750, 750);
-  bg = loadImage("starMap.jpg");
-  sky = bg.copy();
+  sky = loadImage("starMap.jpg");
   
   // Initial size and centre of the coordinate system
   scale = lowestScale;
@@ -88,7 +84,7 @@ void mouseDragged() {
   
   constrainPosition(newX, newY);
 }
-
+ //<>//
 /**
  * Set constraints on the position of the coordinate system
  * 
