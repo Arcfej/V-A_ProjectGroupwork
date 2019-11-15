@@ -61,6 +61,76 @@ void createButtons() {
       println("Cygnus");
     }
   }));
+  buttons.add(new Button(168, 448, 143, 53, new OnClickListener() {
+    public void onClick() {
+      println("Bootes");
+    }
+  }));
+  buttons.add(new Button(128, 838, 91, 50, new OnClickListener() {
+    public void onClick() {
+      println("Leo");
+    }
+  }));
+  buttons.add(new Button(276, 702, 171, 105, new OnClickListener() {
+    public void onClick() {
+      println("Big Dipper");
+    }
+  }));
+  buttons.add(new Button(596, 569, 243, 60, new OnClickListener() {
+    public void onClick() {
+      println("Little Dipper");
+    }
+  }));
+  buttons.add(new Button(961, 525, 187, 70, new OnClickListener() {
+    public void onClick() {
+      println("Cepheus");
+    } //<>//
+  }));
+  buttons.add(new Button(1270, 554, 187, 70, new OnClickListener() {
+    public void onClick() {
+      println("Pegasus");
+    }
+  }));
+  buttons.add(new Button(824, 876, 225, 59, new OnClickListener() {
+    public void onClick() {
+      println("Cassiopeia");
+    }
+  }));
+  buttons.add(new Button(175, 1066, 145, 59, new OnClickListener() {
+    public void onClick() {
+      println("Cancer");
+    }
+  }));
+  buttons.add(new Button(545, 1104, 164, 71, new OnClickListener() {
+    public void onClick() {
+      println("Gemini");
+    }
+  }));
+  buttons.add(new Button(1255, 1127, 133, 72, new OnClickListener() {
+    public void onClick() {
+      println("Aries");
+    }
+  }));
+  buttons.add(new Button(1042, 1212, 171, 75, new OnClickListener() {
+    public void onClick() {
+      println("Taurus");
+    }
+  }));
+  buttons.add(new Button(375, 1340, 254, 85, new OnClickListener() {
+    public void onClick() {
+      println("Canis Minor");
+    }
+  }));
+  buttons.add(new Button(496, 1442, 258, 77, new OnClickListener() {
+    public void onClick() {
+      println("Canis Major");
+    }
+  }));
+  buttons.add(new Button(858, 1373, 142, 66, new OnClickListener() {
+    public void onClick() {
+      println("Orion");
+    }
+  }));
 }
 
 /** First shift than scale the coordinate system to the stored values */
@@ -84,7 +154,7 @@ void constrainPosition(float centreX, float centreY) {
   
   // Set constraints on the position of the coordinate system
   if (centreX > upperConstraint) {
-    centreX = upperConstraint; //<>//
+    centreX = upperConstraint;
   } else if (centreX < lowerConstraint) {
     centreX = lowerConstraint;
   }
