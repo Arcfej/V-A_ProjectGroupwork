@@ -4,6 +4,7 @@ final static int windowSize = 750;
 /** Backup image to resize from */
 PImage bg;
 /** The picture of the constellation map */
+// TODO remove unnecessary copy
 PImage sky;
 
 /** The scale used on the coordinate system */
@@ -83,8 +84,8 @@ void mouseDragged() {
   float newX = centreX - pmouseX + mouseX;
   float newY = centreY - pmouseY + mouseY;
   
-  final float upperConstraint = 0;
-  final float lowerConstraint = -(scale * sky.width - windowSize); //<>//
+  final float upperConstraint = 0; //<>//
+  final float lowerConstraint = -(scale * sky.width - windowSize);
   
   // Set constraints on the shifting based on scaling (zooming)
   if (newX > upperConstraint) {
