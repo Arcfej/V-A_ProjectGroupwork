@@ -36,7 +36,6 @@ void setup() {
 
 void draw() {
   background(#242021);
-  sky = bg.copy();
   
   // Transform the coordinate system to the required size and position
   transformCoordinateSystem();
@@ -84,8 +83,8 @@ void mouseDragged() {
   
   constrainPosition(newX, newY);
 }
- //<>//
-/**
+
+/** //<>//
  * Set constraints on the position of the coordinate system
  * 
  * @param centreX the new x coordinate of the centre of the coordinate system (compared to the window)
