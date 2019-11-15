@@ -18,6 +18,8 @@ float centreY;
 final static int biggestSize = 2075;
 final static int lowestSize = 750;
 
+ArrayList<Button> buttons = new ArrayList();
+
 void setup() {
   // Unfortunately using the windowSize variable here is not possible
   size(750, 750);
@@ -32,6 +34,9 @@ void setup() {
   pushMatrix();
   // Transform the coordinate system for the initial size and centre
   transformCoordinateSystem();
+  
+  // Create clickable buttons with the current scale and shift
+  createButtons();
 }
 
 void draw() {
@@ -44,6 +49,55 @@ void draw() {
   image(sky, 0, 0);
 }
 
+/** Make clickable areas around the names of the constellations */
+void createButtons() {
+  buttons.add(new Button(385, 200, 195, 75, new OnClickListener() {
+    public void onClick() {
+      println("Hercules");
+    }
+  }));
+}
+
+/** First shift than scale the coordinate system to the stored values */
+void transformCoordinateSystem() {
+  popMatrix();
+  pushMatrix();
+  translate(centreX, centreY);
+  scale(scale);
+}
+
+/**
+ * Set constraints on the position of the coordinate system
+ * 
+ * @param centreX the new x coordinate of the centre of the coordinate system (compared to the window)
+ * @param centreY the new y coordinate of the centre of the coordinate system (compared to the window)
+ */
+void constrainPosition(float centreX, float centreY) {
+  // The constraints on the position of the coordinate system (based on scale)
+  final float upperConstraint = 0;
+  final float lowerConstraint = -(scale * sky.height - windowSize);
+  
+  // Set constraints on the position of the coordinate system
+  if (centreX > upperConstraint) {
+    centreX = upperConstraint;
+  } else if (centreX < lowerConstraint) {
+    centreX = lowerConstraint;
+  }
+  if (centreY > upperConstraint) {
+    centreY = upperConstraint; //<>//
+  } else if (centreY < lowerConstraint) {
+    centreY = lowerConstraint;
+  }
+  
+  // Finalize the position of the coordinate system
+  this.centreX = centreX;
+  this.centreY = centreY;
+}
+
+// ----------------------------
+// EVENT LISTENERS
+// ----------------------------
+
 void mouseWheel(MouseEvent event) {
   // Exit the event if mouse is pressed (e.g. dragged)
   if (mousePressed) {
@@ -54,6 +108,7 @@ void mouseWheel(MouseEvent event) {
   
   // Calculate how much enlarge or shrink the constellation map
   float zoom = -0.05 * event.getCount();
+  // TODO remove unnecessary if statements
   if (zoom > 0) {
     // Enlarging the map
     newScale = newScale + zoom;
@@ -84,38 +139,10 @@ void mouseDragged() {
   constrainPosition(newX, newY);
 }
 
-/** //<>//
- * Set constraints on the position of the coordinate system
- * 
- * @param centreX the new x coordinate of the centre of the coordinate system (compared to the window)
- * @param centreY the new y coordinate of the centre of the coordinate system (compared to the window)
- */
-void constrainPosition(float centreX, float centreY) {
-  // The constraints on the position of the coordinate system (based on scale)
-  final float upperConstraint = 0;
-  final float lowerConstraint = -(scale * sky.height - windowSize);
-  
-  // Set constraints on the position of the coordinate system
-  if (centreX > upperConstraint) {
-    centreX = upperConstraint;
-  } else if (centreX < lowerConstraint) {
-    centreX = lowerConstraint;
+/** Checks all the buttons if it was clicked */
+void mouseClicked() {
+  println(pmouseX / scale + ", " + pmouseY / scale);
+  for(Button button : buttons) {
+    if (button.isInside(pmouseX / scale, pmouseY / scale)) button.onClick();
   }
-  if (centreY > upperConstraint) {
-    centreY = upperConstraint;
-  } else if (centreY < lowerConstraint) {
-    centreY = lowerConstraint;
-  }
-  
-  // Finalize the position of the coordinate system
-  this.centreX = centreX;
-  this.centreY = centreY;
-}
-
-/** First shift than scale the coordinate system to the stored values */
-void transformCoordinateSystem() {
-  popMatrix();
-  pushMatrix();
-  translate(centreX, centreY);
-  scale(scale);
 }
