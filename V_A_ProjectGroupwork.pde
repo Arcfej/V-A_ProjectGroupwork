@@ -1,12 +1,16 @@
-// Backup image to resize from
+/** Backup image to resize from */
 PImage bg;
-// The picture to draw every time
+/** The picture of the constellation map */
 PImage sky;
 
-// The size of the background
-int size;
+/** The scale used on the coordinate system */
+float scale;
 
-// The position of the centre of the constellation map
+/** Constraints on the scale */
+final static float biggestScale = 1.287220843672;
+final static float lowestScale = 0.465260545906;
+
+/** The position of the centre of the coordinate system compared to the window */
 float centreX;
 float centreY;
 
@@ -15,61 +19,72 @@ void setup() {
   bg = loadImage("starMap.jpg");
   sky = bg.copy();
   
-  // Initial size and centre of the star consteallation map
-  size = 750;
-  centreX = 375;
-  centreY = 375;
-  resizeMap();
+  // Initial size and centre of the coordinate system
+  scale = lowestScale;
+  centreX = 0;
+  centreY = 0;
   
-  // Draw always around a center
-  imageMode(CENTER);
+  // Save the base coordinate system
+  pushMatrix();
+  // Transform the coordinate system for the initial size and centre
+  transformCoordinateSystem();
 }
 
 void draw() {
   background(#242021);
-  // Draw the map at the center of the window
-  image(sky, centreX, centreY);
+  sky = bg.copy();
+  
+  // Transform the coordinate system to the required size and position
+  transformCoordinateSystem();
+  
+  // Draw the constellation map from the centre of the coordinate system
+  image(sky, 0, 0);
 }
 
 void mouseWheel(MouseEvent event) {
-  int newSize = size;
+  // Exit the event if mouse is pressed (e.g. dragged)
+  if (mousePressed) {
+    return;
+  }
+  
+  float newScale = scale;
   
   // Calculate how much enlarge or shrink the constellation map
-  float zoom = 0.95 * event.getCount();
-  if (zoom < 0) {
-    // Enlarging the map
-    newSize = (int) Math.abs(newSize / zoom);
-  }
+  float zoom = -0.05 * event.getCount();
   if (zoom > 0) {
+    // Enlarging the map
+    newScale = newScale + zoom;
+  }
+  if (zoom < 0) {
     // Shrinking the map
-    newSize = (int) Math.abs(newSize * zoom);
+    newScale = newScale + zoom;
   }
   
   // Set constraints on the image (maximum and minimum sizes)
-  if (newSize > 2075) {
-    newSize = 2075;
-  } else if (newSize < 750) {
-    newSize = 750;
+  if (newScale > biggestScale) {
+    newScale = biggestScale;
+  } else if (newScale < lowestScale) {
+    newScale = lowestScale;
   }
   
-  //Finallize the size
-  size = newSize;
-  
-  // Resize the map
-  resizeMap();
+  //Finallize the scale
+  scale = newScale;
 }
 
-// Resizing the constellation map from the backup image
-void resizeMap() {
-  sky = bg.copy();
-  sky.resize(size, size);
-}
-
-// Change the position of the constellation map based on mouse drags
+/** Change the position of the coordinate system based on mouse drags */
 void mouseDragged() {
   float transX = pmouseX - mouseX;
   float transY = pmouseY - mouseY;
   
+  // Assign the values as the new position of the centre of the coordinate system
   centreX -= transX;
   centreY -= transY;
+}
+
+/** First shift than scale the coordinate system to the stored values */
+void transformCoordinateSystem() {
+  popMatrix();
+  pushMatrix(); //<>//
+  translate(centreX, centreY);
+  scale(scale);
 }
