@@ -56,6 +56,11 @@ void createButtons() {
       println("Hercules");
     }
   }));
+  buttons.add(new Button(811, 211, 162, 59, new OnClickListener() {
+    public void onClick() {
+      println("Cygnus");
+    }
+  }));
 }
 
 /** First shift than scale the coordinate system to the stored values */
@@ -79,12 +84,12 @@ void constrainPosition(float centreX, float centreY) {
   
   // Set constraints on the position of the coordinate system
   if (centreX > upperConstraint) {
-    centreX = upperConstraint;
+    centreX = upperConstraint; //<>//
   } else if (centreX < lowerConstraint) {
     centreX = lowerConstraint;
   }
   if (centreY > upperConstraint) {
-    centreY = upperConstraint; //<>//
+    centreY = upperConstraint;
   } else if (centreY < lowerConstraint) {
     centreY = lowerConstraint;
   }
@@ -98,6 +103,7 @@ void constrainPosition(float centreX, float centreY) {
 // EVENT LISTENERS
 // ----------------------------
 
+/** Enlarge or shrink the constellation map */
 void mouseWheel(MouseEvent event) {
   // Exit the event if mouse is pressed (e.g. dragged)
   if (mousePressed) {
@@ -134,15 +140,15 @@ void mouseWheel(MouseEvent event) {
 /** Change the position of the coordinate system based on mouse drags */
 void mouseDragged() {
   float newX = centreX - pmouseX + mouseX;
-  float newY = centreY - pmouseY + mouseY; //<>//
+  float newY = centreY - pmouseY + mouseY;
   
   constrainPosition(newX, newY);
 }
 
 /** Checks all the buttons if it was clicked */
 void mouseClicked() {
-  println(pmouseX / scale + ", " + pmouseY / scale);
   for(Button button : buttons) {
-    if (button.isInside(pmouseX / scale, pmouseY / scale)) button.onClick();
+    // Transform the click position to the coordinate system
+    if (button.isInside(pmouseX / scale - centreX, pmouseY / scale - centreY)) button.onClick();
   }
 }
