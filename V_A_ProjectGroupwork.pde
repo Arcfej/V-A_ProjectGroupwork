@@ -76,7 +76,6 @@ void mouseDragged() {
   float transX = pmouseX - mouseX;
   float transY = pmouseY - mouseY;
   
-  // Assign the values as the new position of the centre of the coordinate system
   centreX -= transX;
   centreY -= transY;
 }
@@ -84,7 +83,7 @@ void mouseDragged() {
 /** First shift than scale the coordinate system to the stored values */
 void transformCoordinateSystem() {
   popMatrix();
-  pushMatrix(); //<>//
-  translate(centreX, centreY);
+  pushMatrix();
+  translate(centreX, centreY); //<>//
   scale(scale);
 }
