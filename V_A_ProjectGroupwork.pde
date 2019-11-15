@@ -219,6 +219,6 @@ void mouseDragged() {
 void mouseClicked() {
   for(Button button : buttons) {
     // Transform the click position to the coordinate system
-    if (button.isInside(pmouseX / scale - centreX, pmouseY / scale - centreY)) button.onClick();
+    if (button.isInside((pmouseX - centreX) / scale, (pmouseY - centreY) / scale)) button.onClick();
   }
 }
