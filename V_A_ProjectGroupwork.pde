@@ -69,24 +69,21 @@ void mouseWheel(MouseEvent event) {
   
   //Finallize the scale
   scale = newScale;
-  println(scale);
 }
 
-// Change the position of the coordinate system based on mouse drags
+/** Change the position of the coordinate system based on mouse drags */
 void mouseDragged() {
   float transX = pmouseX - mouseX;
   float transY = pmouseY - mouseY;
   
-  // Change the distance based on the scaling and assign the values
-  // as the new position of the centre of the coordinate system
-  centreX -= transX / scale;
-  centreY -= transY / scale;
-  println(centreX + ", " + centreY);
+  centreX -= transX;
+  centreY -= transY;
 }
 
+/** First shift than scale the coordinate system to the stored values */
 void transformCoordinateSystem() {
-  popMatrix(); //<>//
+  popMatrix();
   pushMatrix();
-  translate(centreX, centreY);
+  translate(centreX, centreY); //<>//
   scale(scale);
 }
