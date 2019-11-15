@@ -1,3 +1,6 @@
+/** Size of the window */
+final static int windowSize = 750;
+
 /** Backup image to resize from */
 PImage bg;
 /** The picture of the constellation map */
@@ -14,7 +17,11 @@ final static float lowestScale = 0.465260545906;
 float centreX;
 float centreY;
 
+final static int biggestSize = 2075;
+final static int lowestSize = 750;
+
 void setup() {
+  // Unfortunately using the windowSize variable here is not possible
   size(750, 750);
   bg = loadImage("starMap.jpg");
   sky = bg.copy();
@@ -73,17 +80,32 @@ void mouseWheel(MouseEvent event) {
 
 /** Change the position of the coordinate system based on mouse drags */
 void mouseDragged() {
-  float transX = pmouseX - mouseX;
-  float transY = pmouseY - mouseY;
+  float newX = centreX - pmouseX + mouseX;
+  float newY = centreY - pmouseY + mouseY;
   
-  centreX -= transX;
-  centreY -= transY;
+  final float upperConstraint = 0;
+  final float lowerConstraint = -(scale * sky.width - windowSize); //<>//
+  
+  // Set constraints on the shifting based on scaling (zooming)
+  if (newX > upperConstraint) {
+    newX = upperConstraint;
+  } else if (newX < lowerConstraint) {
+    newX = lowerConstraint;
+  }
+  if (newY > upperConstraint) {
+    newY = upperConstraint;
+  } else if (newY < lowerConstraint) {
+    newY = lowerConstraint;
+  }
+  
+  centreX = newX;
+  centreY = newY;
 }
 
 /** First shift than scale the coordinate system to the stored values */
 void transformCoordinateSystem() {
   popMatrix();
   pushMatrix();
-  translate(centreX, centreY); //<>//
+  translate(centreX, centreY);
   scale(scale);
 }
