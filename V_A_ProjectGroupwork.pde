@@ -63,7 +63,7 @@ void createButtons() {
   }));
   buttons.add(new Button(168, 448, 143, 53, new OnClickListener() {
     public void onClick() {
-      println("Bootes");
+      println("Boötes");
     }
   }));
   buttons.add(new Button(128, 838, 91, 50, new OnClickListener() {
@@ -131,6 +131,13 @@ void createButtons() {
       println("Orion");
     }
   }));
+}
+
+/**
+ * 
+ */
+void showDetails(String fileName) {
+  rect(
 }
 
 /** First shift than scale the coordinate system to the stored values */
