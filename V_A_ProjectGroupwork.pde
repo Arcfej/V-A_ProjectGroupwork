@@ -15,10 +15,16 @@ final static float lowestScale = 0.465260545906;
 float centreX;
 float centreY;
 
-final static int biggestSize = 2075;
-final static int lowestSize = 750;
-
+/**
+ * A list of clickable buttons.
+ * Each shows additional details about the clicked constellation.
+ */
 ArrayList<Button> buttons = new ArrayList();
+
+/** True if a constellation is clicked and additional details are visible */
+boolean isDetailsVisible;
+/** The name of the clicked constellation */
+String clickedConstellation;
 
 void setup() {
   // Unfortunately using the windowSize variable here is not possible
@@ -47,13 +53,18 @@ void draw() {
   
   // Draw the constellation map from the centre of the coordinate system
   image(sky, 0, 0);
+  
+  if(isDetailsVisible) {
+    showDetails();
+  }
 }
 
 /** Make clickable areas around the names of the constellations */
 void createButtons() {
   buttons.add(new Button(385, 200, 195, 75, new OnClickListener() {
     public void onClick() {
-      println("Hercules");
+      clickedConstellation = "Hercules";
+      isDetailsVisible = true;
     }
   }));
   buttons.add(new Button(811, 211, 162, 59, new OnClickListener() {
@@ -63,17 +74,20 @@ void createButtons() {
   }));
   buttons.add(new Button(168, 448, 143, 53, new OnClickListener() {
     public void onClick() {
-      println("Boötes");
+      clickedConstellation = "Boötes";
+      isDetailsVisible = true;
     }
   }));
   buttons.add(new Button(128, 838, 91, 50, new OnClickListener() {
     public void onClick() {
-      println("Leo");
+      clickedConstellation = "Leo";
+      isDetailsVisible = true;
     }
   }));
   buttons.add(new Button(276, 702, 171, 105, new OnClickListener() {
     public void onClick() {
-      println("Big Dipper");
+      clickedConstellation = "Big_Dipper";
+      isDetailsVisible = true;
     }
   }));
   buttons.add(new Button(596, 569, 243, 60, new OnClickListener() {
@@ -98,12 +112,14 @@ void createButtons() {
   }));
   buttons.add(new Button(175, 1066, 145, 59, new OnClickListener() {
     public void onClick() {
-      println("Cancer");
+      clickedConstellation = "Cancer";
+      isDetailsVisible = true;
     }
   }));
   buttons.add(new Button(545, 1104, 164, 71, new OnClickListener() {
     public void onClick() {
-      println("Gemini");
+      clickedConstellation = "Gemini";
+      isDetailsVisible = true;
     }
   }));
   buttons.add(new Button(1255, 1127, 133, 72, new OnClickListener() {
@@ -118,26 +134,41 @@ void createButtons() {
   }));
   buttons.add(new Button(375, 1340, 254, 85, new OnClickListener() {
     public void onClick() {
-      println("Canis Minor");
+      clickedConstellation = "Canis_Minor";
+      isDetailsVisible = true;
     }
   }));
   buttons.add(new Button(496, 1442, 258, 77, new OnClickListener() {
     public void onClick() {
-      println("Canis Major");
+      clickedConstellation = "Canis_Major";
+      isDetailsVisible = true;
     }
   }));
   buttons.add(new Button(858, 1373, 142, 66, new OnClickListener() {
     public void onClick() {
-      println("Orion");
+      clickedConstellation = "Orion";
+      isDetailsVisible = true;
     }
   }));
 }
 
 /**
- * 
+ * Show details of a constellation in a new window
  */
-void showDetails(String fileName) {
-  rect(
+void showDetails() {
+  String[] details = loadStrings(clickedConstellation + ".txt");
+  // Draw the details window according to the program's window,
+  // so return to the original coordinate system
+  popMatrix();
+  fill(#ffffff);
+  rect(187.5, 187.5, 375, 375);
+  textSize(12);
+  fill(#000000);
+  for(int i = 0; i < details.length; i++) {
+    String line = details[i];
+    text(line, 200, 200 + i * 40, 350, 350);
+  }
+  pushMatrix();
 }
 
 /** First shift than scale the coordinate system to the stored values */
