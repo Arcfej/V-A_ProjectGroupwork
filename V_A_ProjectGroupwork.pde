@@ -1,3 +1,5 @@
+import java.io.FileInputStream;
+
 import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.StreamSpeechRecognizer;
@@ -32,6 +34,9 @@ String clickedConstellation;
 /** The button which closes the details window */
 Button closeDetailsButton;
 
+/** Recognize speech and can transform it into text */
+StreamSpeechRecognizer recognizer;
+
 void setup() {
   // Unfortunately using the windowSize variable here is not possible
   size(750, 750);
@@ -49,6 +54,13 @@ void setup() {
   
   // Create clickable buttons with the current scale and shift
   createButtons();
+  
+  try {
+    setupVoiceRecognition();
+  } catch(IOException e) {
+    println("error");
+    print(e.getMessage().substring(0,100));
+  }
 }
 
 void draw() {
@@ -236,6 +248,25 @@ void constrainPosition(float centreX, float centreY) {
   // Finalize the position of the coordinate system
   this.centreX = centreX;
   this.centreY = centreY;
+}
+
+void setupVoiceRecognition() throws IOException {
+  Configuration configuration = new Configuration();
+
+  configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
+  configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
+  configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
+
+  //recognizer = new StreamSpeechRecognizer(configuration);
+  
+  //InputStream stream = new FileInputStream(new File("test.wav"));
+
+  //recognizer.startRecognition(stream);
+  //SpeechResult result;
+  //while ((result = recognizer.getResult()) != null) {
+  //  System.out.format("Hypothesis: %s\n", result.getHypothesis());
+  //}
+  //recognizer.stopRecognition();
 }
 
 // ----------------------------
