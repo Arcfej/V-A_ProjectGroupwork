@@ -240,8 +240,9 @@ void constrainPosition(float centreX, float centreY) {
 
 /** Enlarge or shrink the constellation map */
 void mouseWheel(MouseEvent event) {
-  // Exit the event if mouse is pressed (e.g. dragged)
-  if (mousePressed) {
+  // Don't allow zooming if the details window is visible or
+  // the mouse is pressed (e.g. dragged)
+  if (isDetailsVisible || mousePressed) {
     return;
   }
   
@@ -274,6 +275,11 @@ void mouseWheel(MouseEvent event) {
 
 /** Change the position of the coordinate system based on mouse drags */
 void mouseDragged() {
+  // Don't allow to drag the map when the details window is visible.
+  if (isDetailsVisible) {
+    return;
+  }
+  
   float newX = centreX - pmouseX + mouseX;
   float newY = centreY - pmouseY + mouseY;
   
