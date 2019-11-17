@@ -19,12 +19,14 @@ float centreY;
  * A list of clickable buttons.
  * Each shows additional details about the clicked constellation.
  */
-ArrayList<Button> buttons = new ArrayList();
+ArrayList<Button> constellationButtons = new ArrayList();
 
 /** True if a constellation is clicked and additional details are visible */
 boolean isDetailsVisible;
 /** The name of the clicked constellation */
 String clickedConstellation;
+/** The button which closes the details window */
+Button closeDetailsButton;
 
 void setup() {
   // Unfortunately using the windowSize variable here is not possible
@@ -61,90 +63,90 @@ void draw() {
 
 /** Make clickable areas around the names of the constellations */
 void createButtons() {
-  buttons.add(new Button(385, 200, 195, 75, new OnClickListener() {
+  constellationButtons.add(new Button(385, 200, 195, 75, new OnClickListener() {
     public void onClick() {
       clickedConstellation = "Hercules";
       isDetailsVisible = true;
     }
   }));
-  buttons.add(new Button(811, 211, 162, 59, new OnClickListener() {
+  constellationButtons.add(new Button(811, 211, 162, 59, new OnClickListener() {
     public void onClick() {
       println("Cygnus");
     }
   }));
-  buttons.add(new Button(168, 448, 143, 53, new OnClickListener() {
+  constellationButtons.add(new Button(168, 448, 143, 53, new OnClickListener() {
     public void onClick() {
       clickedConstellation = "Boötes";
       isDetailsVisible = true;
     }
   }));
-  buttons.add(new Button(128, 838, 91, 50, new OnClickListener() {
+  constellationButtons.add(new Button(128, 838, 91, 50, new OnClickListener() {
     public void onClick() {
       clickedConstellation = "Leo";
       isDetailsVisible = true;
     }
   }));
-  buttons.add(new Button(276, 702, 171, 105, new OnClickListener() {
+  constellationButtons.add(new Button(276, 702, 171, 105, new OnClickListener() {
     public void onClick() {
       clickedConstellation = "Big_Dipper";
       isDetailsVisible = true;
     }
   }));
-  buttons.add(new Button(596, 569, 243, 60, new OnClickListener() {
+  constellationButtons.add(new Button(596, 569, 243, 60, new OnClickListener() {
     public void onClick() {
       println("Little Dipper");
     }
   }));
-  buttons.add(new Button(961, 525, 187, 70, new OnClickListener() {
+  constellationButtons.add(new Button(961, 525, 187, 70, new OnClickListener() {
     public void onClick() {
       println("Cepheus");
     } //<>//
   }));
-  buttons.add(new Button(1270, 554, 187, 70, new OnClickListener() {
+  constellationButtons.add(new Button(1270, 554, 187, 70, new OnClickListener() {
     public void onClick() {
       println("Pegasus");
     }
   }));
-  buttons.add(new Button(824, 876, 225, 59, new OnClickListener() {
+  constellationButtons.add(new Button(824, 876, 225, 59, new OnClickListener() {
     public void onClick() {
       println("Cassiopeia");
     }
   }));
-  buttons.add(new Button(175, 1066, 145, 59, new OnClickListener() {
+  constellationButtons.add(new Button(175, 1066, 145, 59, new OnClickListener() {
     public void onClick() {
       clickedConstellation = "Cancer";
       isDetailsVisible = true;
     }
   }));
-  buttons.add(new Button(545, 1104, 164, 71, new OnClickListener() {
+  constellationButtons.add(new Button(545, 1104, 164, 71, new OnClickListener() {
     public void onClick() {
       clickedConstellation = "Gemini";
       isDetailsVisible = true;
     }
   }));
-  buttons.add(new Button(1255, 1127, 133, 72, new OnClickListener() {
+  constellationButtons.add(new Button(1255, 1127, 133, 72, new OnClickListener() {
     public void onClick() {
       println("Aries");
     }
   }));
-  buttons.add(new Button(1042, 1212, 171, 75, new OnClickListener() {
+  constellationButtons.add(new Button(1042, 1212, 171, 75, new OnClickListener() {
     public void onClick() {
       println("Taurus");
     }
   }));
-  buttons.add(new Button(375, 1340, 254, 85, new OnClickListener() {
+  constellationButtons.add(new Button(375, 1340, 254, 85, new OnClickListener() {
     public void onClick() {
       clickedConstellation = "Canis_Minor";
       isDetailsVisible = true;
     }
   }));
-  buttons.add(new Button(496, 1442, 258, 77, new OnClickListener() {
+  constellationButtons.add(new Button(496, 1442, 258, 77, new OnClickListener() {
     public void onClick() {
       clickedConstellation = "Canis_Major";
       isDetailsVisible = true;
     }
   }));
-  buttons.add(new Button(858, 1373, 142, 66, new OnClickListener() {
+  constellationButtons.add(new Button(858, 1373, 142, 66, new OnClickListener() {
     public void onClick() {
       clickedConstellation = "Orion";
       isDetailsVisible = true;
@@ -157,11 +159,36 @@ void createButtons() {
  */
 void showDetails() {
   String[] details = loadStrings(clickedConstellation + ".txt");
+  if (details == null) {
+    println(clickedConstellation + ".txt does not exists");
+    return;
+  }
+  
   // Draw the details window according to the program's window,
   // so return to the original coordinate system
   popMatrix();
+  // Draw the details window
   fill(#ffffff);
+  stroke(#000000);
+  strokeWeight(1);
   rect(187.5, 187.5, 375, 375);
+  // Close button square
+  fill(#ff0000);
+  stroke(#ff0000);
+  rect(537.5, 187.5, 25, 25);
+  // The x of the close button
+  stroke(#ffffff);
+  strokeWeight(3);
+  line(542.5, 192.5, 557.5, 207.5);
+  line(542.5, 207.5, 557.5, 192.5);
+  closeDetailsButton = new Button(187.5, 187.5, 375, 375, new OnClickListener() {
+    public void onClick() {
+      clickedConstellation = null;
+      isDetailsVisible = false;
+    }
+  });
+  
+  // Text contents
   textSize(12);
   fill(#000000);
   for(int i = 0; i < details.length; i++) {
@@ -255,8 +282,20 @@ void mouseDragged() {
 
 /** Checks all the buttons if it was clicked */
 void mouseClicked() {
-  for(Button button : buttons) {
-    // Transform the click position to the coordinate system
-    if (button.isInside((pmouseX - centreX) / scale, (pmouseY - centreY) / scale)) button.onClick();
+  if (isDetailsVisible) {
+    if (closeDetailsButton.isInside(pmouseX, pmouseY)) {
+      closeDetailsButton.onClick();
+    }
+  }
+  // Allow clicks on constellation only if the details window is not visible
+  else {
+    for(Button button : constellationButtons) {
+      // Transform the click position to the coordinate system and check if it's clicked
+      if (button.isInside((pmouseX - centreX) / scale, (pmouseY - centreY) / scale)) {
+        button.onClick();
+        // Break the loop, because we found the clicked button
+        break;
+      }
+    }
   }
 }
