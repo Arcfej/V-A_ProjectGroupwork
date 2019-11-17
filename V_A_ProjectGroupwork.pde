@@ -1,3 +1,7 @@
+import edu.cmu.sphinx.api.Configuration;
+import edu.cmu.sphinx.api.SpeechResult;
+import edu.cmu.sphinx.api.StreamSpeechRecognizer;
+
 /** Size of the window */
 final static int windowSize = 750;
 
