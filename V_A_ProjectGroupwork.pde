@@ -59,7 +59,7 @@ void setup() {
     setupVoiceRecognition();
   } catch(IOException e) {
     println("error");
-    print(e.getMessage().substring(0,100));
+    //print(e.getMessage().substring(0,100));
   }
 }
 
@@ -257,7 +257,7 @@ void setupVoiceRecognition() throws IOException {
   configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
   configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
 
-  //recognizer = new StreamSpeechRecognizer(configuration);
+  recognizer = new StreamSpeechRecognizer(configuration);
   
   //InputStream stream = new FileInputStream(new File("test.wav"));
 
