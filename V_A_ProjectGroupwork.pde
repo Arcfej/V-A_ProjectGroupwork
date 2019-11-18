@@ -188,7 +188,7 @@ void showDetails() {
   strokeWeight(3);
   line(542.5, 192.5, 557.5, 207.5);
   line(542.5, 207.5, 557.5, 192.5);
-  closeDetailsButton = new Button(187.5, 187.5, 375, 375, new OnClickListener() {
+  closeDetailsButton = new Button(537.5, 187.5, 25, 25, new OnClickListener() {
     public void onClick() {
       clickedConstellation = null;
       isDetailsVisible = false;
