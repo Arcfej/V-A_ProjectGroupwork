@@ -71,7 +71,8 @@ void createButtons() {
   }));
   constellationButtons.add(new Button(811, 211, 162, 59, new OnClickListener() {
     public void onClick() {
-      println("Cygnus");
+      clickedConstellation = "Cygnus";
+      isDetailsVisible = true;
     }
   }));
   constellationButtons.add(new Button(168, 448, 143, 53, new OnClickListener() {
@@ -83,7 +84,7 @@ void createButtons() {
   constellationButtons.add(new Button(128, 838, 91, 50, new OnClickListener() {
     public void onClick() {
       clickedConstellation = "Leo";
-      isDetailsVisible = true;
+      isDetailsVisible = true; //<>//
     }
   }));
   constellationButtons.add(new Button(276, 702, 171, 105, new OnClickListener() {
@@ -94,22 +95,26 @@ void createButtons() {
   }));
   constellationButtons.add(new Button(596, 569, 243, 60, new OnClickListener() {
     public void onClick() {
-      println("Little Dipper");
+      clickedConstellation = "Little_Dipper";
+      isDetailsVisible = true;
     }
   }));
   constellationButtons.add(new Button(961, 525, 187, 70, new OnClickListener() {
     public void onClick() {
-      println("Cepheus");
-    } //<>//
+      clickedConstellation = "Cepheus";
+      isDetailsVisible = true;
+    }
   }));
   constellationButtons.add(new Button(1270, 554, 187, 70, new OnClickListener() {
     public void onClick() {
-      println("Pegasus");
+      clickedConstellation = "Pegasus";
+      isDetailsVisible = true;
     }
   }));
   constellationButtons.add(new Button(824, 876, 225, 59, new OnClickListener() {
     public void onClick() {
-      println("Cassiopeia");
+      clickedConstellation = "Cassiopeia";
+      isDetailsVisible = true;
     }
   }));
   constellationButtons.add(new Button(175, 1066, 145, 59, new OnClickListener() {
@@ -126,12 +131,14 @@ void createButtons() {
   }));
   constellationButtons.add(new Button(1255, 1127, 133, 72, new OnClickListener() {
     public void onClick() {
-      println("Aries");
+      clickedConstellation = "Aries";
+      isDetailsVisible = true;
     }
   }));
   constellationButtons.add(new Button(1042, 1212, 171, 75, new OnClickListener() {
     public void onClick() {
-      println("Taurus");
+      clickedConstellation = "Taurus";
+      isDetailsVisible = true;
     }
   }));
   constellationButtons.add(new Button(375, 1340, 254, 85, new OnClickListener() {
